@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 type Order = {
   id: string;
@@ -60,9 +61,9 @@ const OrdersList = () => {
               <td className="px-6 py-4">{order.id}</td>
               <td className="px-6 py-4">{order.createdDate}</td>
               <td className="px-6 py-4">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                <Link to={`/orders/${order.id}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                   See Details
-                </a>
+                </Link>
               </td>
             </tr>
           ))}
