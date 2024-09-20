@@ -1,0 +1,18 @@
+[
+  { "orderId": "ORD001", "sampleId": "SAMP001", "minDepth": 1, "maxDepth": 5 },
+  { "orderId": "ORD001", "sampleId": "SAMP0016", "minDepth": 2, "maxDepth": 11 },
+  { "orderId": "ORD002", "sampleId": "SAMP002", "minDepth": 2, "maxDepth": 8 },
+  { "orderId": "ORD003", "sampleId": "SAMP003", "minDepth": 0, "maxDepth": 10 },
+  { "orderId": "ORD004", "sampleId": "SAMP004", "minDepth": 3, "maxDepth": 12 },
+  { "orderId": "ORD006", "sampleId": "SAMP005", "minDepth": 1, "maxDepth": 6 },
+  { "orderId": "ORD007", "sampleId": "SAMP006", "minDepth": 2, "maxDepth": 9 },
+  { "orderId": "ORD008", "sampleId": "SAMP007", "minDepth": 1, "maxDepth": 7 },
+  { "orderId": "ORD010", "sampleId": "SAMP008", "minDepth": 0.5, "maxDepth": 8 },
+  { "orderId": "ORD012", "sampleId": "SAMP009", "minDepth": 3, "maxDepth": 10 },
+  { "orderId": "ORD014", "sampleId": "SAMP010", "minDepth": 0, "maxDepth": 11 },
+  { "orderId": "ORD016", "sampleId": "SAMP011", "minDepth": 1, "maxDepth": 4 },
+  { "orderId": "ORD018", "sampleId": "SAMP012", "minDepth": 2, "maxDepth": 7 },
+  { "orderId": "ORD020", "sampleId": "SAMP013", "minDepth": 1.5, "maxDepth": 6 },
+  { "orderId": "ORD022", "sampleId": "SAMP014", "minDepth": 2, "maxDepth": 10 },
+  { "orderId": "ORD025", "sampleId": "SAMP015", "minDepth": 3, "maxDepth": 9 }
+]
