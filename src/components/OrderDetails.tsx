@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { SampleDetailProps } from '../interfaces/sampleDetailPropsType';
 import { Sample } from '../interfaces/sampleType';
 
 const OrderDetails = () => {
   const { orderId } = useParams();
+  const navigate = useNavigate();
   const [samples, setSamples] = useState<Sample[]>([]);
   const [editingSampleId, setEditingSampleId] = useState<string | null>(null);
   const [minDepth, setMinDepth] = useState<number | null>(null);
@@ -55,6 +56,12 @@ const OrderDetails = () => {
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <button
+        onClick={() => navigate(-1)}
+        className="mb-4 px-4 py-2 bg-gray-300 text-black rounded"
+      >
+        Back
+      </button>
       <h1 className="text-2xl font-bold mb-4">Order {orderId} - Sample Details</h1>
       {error && <div className="text-red-500 mb-4">{error}</div>}
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
