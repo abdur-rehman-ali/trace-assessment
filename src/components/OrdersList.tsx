@@ -6,7 +6,6 @@ type Order = {
   createdDate: string;
 };
 
-
 const OrdersList = () => {
   const [orders, setOrders] = useState<Order[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -14,7 +13,7 @@ const OrdersList = () => {
   useEffect(() => {
     (async () => {
       try {
-        const dataURL = '/data/orders.json'
+        const dataURL = '/data/ordersData.json'
         const response = await fetch(dataURL);
         const data = await response.json();
         setOrders(data);
