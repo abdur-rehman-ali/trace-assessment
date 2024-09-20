@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Order } from "../interfaces/orderType";
 import SingleOrder from "./SingleOrder";
 import { SingleOrderProps } from "../interfaces/singleOrderPropsType";
+import { getOrders } from "../apis";
 
 const OrdersList = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -11,37 +12,28 @@ const OrdersList = () => {
   const [endDate, setEndDate] = useState<string>('');
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
 
+
   useEffect(() => {
     (async () => {
-      try {
-        const dataURL = '/data/ordersData.json';
-        const response = await fetch(dataURL);
-        const data = await response.json();
-        setOrders(data);
-        setFilteredOrders(data);
-      } catch (error) {
-        console.error('Error loading orders:', error);
-      } finally {
-        setLoading(false);
-      }
+      const data = await getOrders()
+      setOrders(data);
+      setFilteredOrders(data);
+      setLoading(false);
     })();
   }, []);
 
-  const sortOrders = (order: string) => {
-    const sortedOrders = [...filteredOrders].sort((a, b) => {
-      if (order === 'asc') {
-        return a.farmName.localeCompare(b.farmName);
-      } else {
-        return b.farmName.localeCompare(a.farmName);
-      }
-    });
-    setFilteredOrders(sortedOrders);
-  };
+
+  const sortedOrders = useMemo(() => [...filteredOrders].sort((a, b) => {
+    if (sortOrder === 'asc') {
+      return a.farmName.localeCompare(b.farmName);
+    } else {
+      return b.farmName.localeCompare(a.farmName);
+    }
+  }), [filteredOrders, sortOrder]);
+
 
   const handleSortChange = () => {
-    const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-    setSortOrder(newSortOrder);
-    sortOrders(newSortOrder);
+    setSortOrder(order => order === 'asc' ? 'desc' : 'asc');
   };
 
   const handleFilterChange = () => {
@@ -49,7 +41,7 @@ const OrdersList = () => {
       alert("Start date cannot be greater than end date.");
       return;
     }
-    
+
     const filtered = orders.filter(order => {
       const orderDate = new Date(order.createdDate);
       const isAfterStart = !startDate || orderDate >= new Date(startDate);
@@ -139,7 +131,7 @@ const OrdersList = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredOrders.length > 0 && filteredOrders.map((order: SingleOrderProps) => (
+          {sortedOrders.length > 0 && sortedOrders.map((order: SingleOrderProps) => (
             <SingleOrder
               id={order.id}
               farmName={order.farmName}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SampleDetailProps } from '../interfaces/sampleDetailPropsType';
 import { Sample } from '../interfaces/sampleType';
+import { getSingleOrder } from '../apis';
 
 const OrderDetails = () => {
   const { orderId } = useParams();
@@ -14,10 +15,10 @@ const OrderDetails = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch('/data/samplesData.json');
-      const samplesData = await response.json();
-      const orderSamples = samplesData.filter((sample: Sample) => sample.orderId === orderId);
-      setSamples(orderSamples);
+      if (orderId) {
+        const orderSamples = await getSingleOrder(orderId)
+        setSamples(orderSamples);
+      }
     })();
   }, [orderId]);
 
