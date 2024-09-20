@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-type Order = {
-  id: string;
-  farmName: string;
-  createdDate: string;
-};
+import { Order } from "../interfaces/orderType";
 
 const OrdersList = () => {
   const [orders, setOrders] = useState<Order[]>([])
