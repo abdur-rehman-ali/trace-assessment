@@ -51,6 +51,7 @@ const OrdersList = () => {
               id={order.id}
               farmName={order.farmName}
               createdDate={order.createdDate}
+              key={order.id}
             />
           ))}
         </tbody>

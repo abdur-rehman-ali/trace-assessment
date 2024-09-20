@@ -36,6 +36,7 @@ const OrderDetails = () => {
                 sampleId={sample.sampleId}
                 minDepth={sample.minDepth}
                 maxDepth={sample.maxDepth}
+                key={sample.sampleId}
               />
             ))
           ) : (
