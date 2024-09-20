@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import samplesData from '../../public/data/samplesData.json'
+import SampleDetail from './SampleDetail';
+import { SampleDetailProps } from '../interfaces/sampleDetailPropsType';
+import { Sample } from '../interfaces/sampleType';
 
-type Sample = {
-  orderId: string;
-  sampleId: string;
-  minDepth: number;
-  maxDepth: number;
-};
 
 const OrderDetails = () => {
   const { orderId } = useParams();
@@ -31,12 +28,12 @@ const OrderDetails = () => {
         </thead>
         <tbody>
           {samples.length > 0 ? (
-            samples.map((sample) => (
-              <tr key={sample.sampleId} className=" dark:bg-gray-900">
-                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{sample.sampleId}</td>
-                <td className="px-6 py-4">{sample.minDepth}</td>
-                <td className="px-6 py-4">{sample.maxDepth}</td>
-              </tr>
+            samples.map((sample: SampleDetailProps) => (
+              <SampleDetail
+                sampleId={sample.sampleId}
+                minDepth={sample.minDepth}
+                maxDepth={sample.maxDepth}
+              />
             ))
           ) : (
             <tr>
