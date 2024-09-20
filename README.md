@@ -1,50 +1,36 @@
-# React + TypeScript + Vite
+# Orders List Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a React application that displays a list of orders and samples details, allows sorting and filtering of orders by date, and includes an export-to-CSV feature. The data is loaded from a local JSON file.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **List orders**: Page containing orders fetched from mock data file.
+- **Order Details**: Page containing all the samples of order.
+- **Sort Orders**: Sort orders by farm name (A-Z or Z-A).
+- **Filter Orders by Date**: Filter orders within a specified date range.
+- **Export to CSV**: Export the filtered and sorted orders to a CSV file.
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Clone the repository
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+2. Install dependencies:
+```
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+3. Run project:
 ```
+npm start
+```
+
+
+## Usage
+- Sort Orders: Toggle between ascending/descending order by clicking the "Sort by Farm Name" button.
+- Filter by Date: Select start and end dates, and click "Filter by Date" to view filtered orders.
+- Export to CSV: Click "Export to CSV" to download the orders as a CSV file.
+
+## Sample video
+https://github.com/user-attachments/assets/16d2544f-df14-4a7a-92cc-f460a2d7374e
+
+
