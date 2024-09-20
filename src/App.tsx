@@ -1,11 +1,11 @@
+import Order from "./components/OrdersList"
+
 function App() {
 
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-    </>
+    <div className="container mx-auto p-12">
+      <Order/>
+    </div>
   )
 }
 
