@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Order } from "../interfaces/orderType";
+import SingleOrder from "./SingleOrder";
+import { SingleOrderProps } from "../interfaces/singleOrderPropsType";
 
 const OrdersList = () => {
   const [orders, setOrders] = useState<Order[]>([])
@@ -45,22 +46,12 @@ const OrdersList = () => {
           </tr>
         </thead>
         <tbody>
-          {orders.length > 0 && orders.map((order) => (
-            <tr
-              key={order.id}
-              className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-            >
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {order.farmName}
-              </th>
-              <td className="px-6 py-4">{order.id}</td>
-              <td className="px-6 py-4">{order.createdDate}</td>
-              <td className="px-6 py-4">
-                <Link to={`/orders/${order.id}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                  See Details
-                </Link>
-              </td>
-            </tr>
+          {orders.length > 0 && orders.map((order: SingleOrderProps) => (
+            <SingleOrder
+              id={order.id}
+              farmName={order.farmName}
+              createdDate={order.createdDate}
+            />
           ))}
         </tbody>
       </table>
