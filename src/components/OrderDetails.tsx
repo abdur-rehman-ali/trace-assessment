@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import samplesData from '../../public/data/samplesData.json'
 import SampleDetail from './SampleDetail';
 import { SampleDetailProps } from '../interfaces/sampleDetailPropsType';
 import { Sample } from '../interfaces/sampleType';
@@ -11,8 +10,12 @@ const OrderDetails = () => {
   const [samples, setSamples] = useState<Sample[]>([]);
 
   useEffect(() => {
-    const orderSamples = samplesData.filter(sample => sample.orderId === orderId);
-    setSamples(orderSamples);
+    (async () => {
+      const response = await fetch('/data/samplesData.json')
+      const samplesData = await response.json();
+      const orderSamples = samplesData.filter((sample: Sample) => sample.orderId === orderId);
+      setSamples(orderSamples);
+    })()
   }, [orderId]);
 
   return (
