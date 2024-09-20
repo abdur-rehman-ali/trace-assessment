@@ -7,6 +7,9 @@ const OrdersList = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [sortOrder, setSortOrder] = useState<string>('asc');
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
+  const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -15,6 +18,7 @@ const OrdersList = () => {
         const response = await fetch(dataURL);
         const data = await response.json();
         setOrders(data);
+        setFilteredOrders(data);
       } catch (error) {
         console.error('Error loading orders:', error);
       } finally {
@@ -24,20 +28,42 @@ const OrdersList = () => {
   }, []);
 
   const sortOrders = (order: string) => {
-    const sortedOrders = [...orders].sort((a, b) => {
+    const sortedOrders = [...filteredOrders].sort((a, b) => {
       if (order === 'asc') {
         return a.farmName.localeCompare(b.farmName);
       } else {
         return b.farmName.localeCompare(a.farmName);
       }
     });
-    setOrders(sortedOrders);
+    setFilteredOrders(sortedOrders);
   };
 
   const handleSortChange = () => {
     const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
     setSortOrder(newSortOrder);
     sortOrders(newSortOrder);
+  };
+
+  const handleFilterChange = () => {
+    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+      alert("Start date cannot be greater than end date.");
+      return;
+    }
+    
+    const filtered = orders.filter(order => {
+      const orderDate = new Date(order.createdDate);
+      const isAfterStart = !startDate || orderDate >= new Date(startDate);
+      const isBeforeEnd = !endDate || orderDate <= new Date(endDate);
+      return isAfterStart && isBeforeEnd;
+    });
+
+    setFilteredOrders(filtered);
+  };
+
+  const clearFilters = () => {
+    setStartDate('');
+    setEndDate('');
+    setFilteredOrders(orders);
   };
 
   if (loading) {
@@ -48,32 +74,50 @@ const OrdersList = () => {
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <div className="flex justify-between mb-4">
         <h1 className="text-xl font-bold">Orders List</h1>
-        <button
-          onClick={handleSortChange}
-          className="px-4 py-2 bg-blue-600 text-white rounded"
-        >
-          Sort by Farm Name ({sortOrder === 'asc' ? 'A-Z' : 'Z-A'})
-        </button>
+        <div className="flex items-center space-x-2">
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="px-2 py-1 border rounded"
+          />
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="px-2 py-1 border rounded"
+          />
+          <button
+            onClick={handleFilterChange}
+            className="px-4 py-2 bg-green-500 text-white rounded"
+          >
+            Filter by Date
+          </button>
+          <button
+            onClick={clearFilters}
+            className="px-4 py-2 bg-red-500 text-white rounded"
+          >
+            Clear Filters
+          </button>
+          <button
+            onClick={handleSortChange}
+            className="px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            Sort by Farm Name ({sortOrder === 'asc' ? 'A-Z' : 'Z-A'})
+          </button>
+        </div>
       </div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="px-6 py-3">
-              Farm Name
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Order ID
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Created Date
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Action
-            </th>
+            <th scope="col" className="px-6 py-3">Farm Name</th>
+            <th scope="col" className="px-6 py-3">Order ID</th>
+            <th scope="col" className="px-6 py-3">Created Date</th>
+            <th scope="col" className="px-6 py-3">Action</th>
           </tr>
         </thead>
         <tbody>
-          {orders.length > 0 && orders.map((order: SingleOrderProps) => (
+          {filteredOrders.length > 0 && filteredOrders.map((order: SingleOrderProps) => (
             <SingleOrder
               id={order.id}
               farmName={order.farmName}
