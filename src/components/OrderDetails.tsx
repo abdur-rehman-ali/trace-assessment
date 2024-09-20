@@ -9,6 +9,7 @@ const OrderDetails = () => {
   const [editingSampleId, setEditingSampleId] = useState<string | null>(null);
   const [minDepth, setMinDepth] = useState<number | null>(null);
   const [maxDepth, setMaxDepth] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -23,10 +24,20 @@ const OrderDetails = () => {
     setEditingSampleId(sample.sampleId);
     setMinDepth(sample.minDepth);
     setMaxDepth(sample.maxDepth);
+    setError(null);
   };
 
   const handleSave = () => {
     if (editingSampleId && minDepth !== null && maxDepth !== null) {
+      if (minDepth < 0 || minDepth > 12 || maxDepth < 0 || maxDepth > 12) {
+        setError('Depth values must be between 0 and 12 inches.');
+        return;
+      }
+      if (minDepth > maxDepth) {
+        setError('Minimum depth cannot be greater than maximum depth.');
+        return;
+      }
+
       const updatedSamples = samples.map(sample => {
         if (sample.sampleId === editingSampleId) {
           return { ...sample, minDepth, maxDepth };
@@ -38,12 +49,14 @@ const OrderDetails = () => {
       setEditingSampleId(null);
       setMinDepth(null);
       setMaxDepth(null);
+      setError(null);
     }
   };
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <h1 className="text-2xl font-bold mb-4">Order {orderId} - Sample Details</h1>
+      {error && <div className="text-red-500 mb-4">{error}</div>}
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -65,6 +78,8 @@ const OrderDetails = () => {
                       value={minDepth ?? ''}
                       onChange={(e) => setMinDepth(Number(e.target.value))}
                       className="border rounded px-2"
+                      min="0"
+                      max="12"
                     />
                   ) : (
                     sample.minDepth
@@ -77,6 +92,8 @@ const OrderDetails = () => {
                       value={maxDepth ?? ''}
                       onChange={(e) => setMaxDepth(Number(e.target.value))}
                       className="border rounded px-2"
+                      min="0"
+                      max="12"
                     />
                   ) : (
                     sample.maxDepth
